@@ -7,6 +7,7 @@ import com.appwork.ada.R
 import com.appwork.ada.databinding.ActivitySecondBinding
 import com.appwork.ada.lifecycle.fragments.FirstFragment
 import com.appwork.ada.lifecycle.fragments.SecondFragment
+import com.appwork.ada.lifecycle.fragments.ThirdFragment
 
 class SecondActivity : AppCompatActivity() {
     companion object {
@@ -20,30 +21,80 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(vbSecondActivity.root)
-
-        attachFragment(
-            FirstFragment(), "First Fragment"
-        )
-        vbSecondActivity.btnAdd.setOnClickListener {
-            attachFragment(
+        vbSecondActivity.btnAddFirst.setOnClickListener {
+            transWithAdd(
+                FirstFragment(),
+                R.id.hostFragment,
+                "First Fragment"
+            )
+        }
+        vbSecondActivity.btnAddFirst.setOnClickListener {
+            transWithAdd(
                 SecondFragment(),
+                R.id.hostFragment,
+                "Second Fragment"
+            )
+        }
+        vbSecondActivity.btnAddFirst.setOnClickListener {
+            transWithAdd(
+                ThirdFragment(),
+                R.id.hostFragment,
                 "Second Fragment"
             )
         }
     }
 
-    private fun attachFragment(
-        fragment: Fragment = FirstFragment(),
-        tag: String = "First Fragment"
+    /**
+     * Simple Add
+     */
+    private fun transWithAdd(
+        fragment: Fragment,
+        id: Int,
+        tag: String
     ) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(
-                R.id.hostFragment,
-                fragment,
-                tag
-            )
-            addToBackStack(tag)//
-                .commit()
-        }
+        supportFragmentManager.beginTransaction()
+            .add(id, fragment, tag)
+            .commit()
+    }
+
+    /**
+     * Add With BackStack
+     */
+    private fun transWithAddAndBackStack(
+        fragment: Fragment,
+        id: Int,
+        tag: String
+    ) {
+        supportFragmentManager.beginTransaction()
+            .add(id, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
+    }
+
+    /**\
+     * Simple Replace
+     */
+    private fun transWithReplace(
+        fragment: Fragment,
+        id: Int,
+        tag: String
+    ) {
+        supportFragmentManager.beginTransaction()
+            .replace(id, fragment, tag)
+            .commit()
+    }
+
+    /**
+     * Replace with backstack
+     */
+    private fun transWithReplaceAndBackStack(
+        fragment: Fragment,
+        id: Int,
+        tag: String
+    ) {
+        supportFragmentManager.beginTransaction()
+            .replace(id, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
     }
 }
