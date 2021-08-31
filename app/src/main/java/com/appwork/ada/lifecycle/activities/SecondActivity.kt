@@ -28,14 +28,14 @@ class SecondActivity : AppCompatActivity() {
                 "First Fragment"
             )
         }
-        vbSecondActivity.btnAddFirst.setOnClickListener {
+        vbSecondActivity.btnAddSecond.setOnClickListener {
             transWithAdd(
                 SecondFragment(),
                 R.id.hostFragment,
                 "Second Fragment"
             )
         }
-        vbSecondActivity.btnAddFirst.setOnClickListener {
+        vbSecondActivity.button2.setOnClickListener {
             transWithAdd(
                 ThirdFragment(),
                 R.id.hostFragment,
