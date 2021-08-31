@@ -78,6 +78,7 @@ class SecondFragment : Fragment() {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState: ")
     }
+
     override fun onDetach() {
         super.onDetach()
         Log.d(TAG, "onDetach: ")

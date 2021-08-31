@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.appwork.ada.R
-import com.appwork.ada.databinding.FragmentFirstBinding
 
 
 class FirstFragment : Fragment() {
