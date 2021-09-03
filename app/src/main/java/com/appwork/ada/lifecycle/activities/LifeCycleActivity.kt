@@ -4,11 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.appwork.ada.backgroundprocess.services.DemoService
 import com.appwork.ada.databinding.ActivityLifeCycleBinding
 
 class LifeCycleActivity : AppCompatActivity() {
     companion object {
-        const val TAG = "LifeCycleActivity"
+        const val TAG = "FirstActivity Thread"
         const val EMAIL = "email"
         const val PASS = "pass"
     }
@@ -20,7 +21,9 @@ class LifeCycleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(bnLifeCycle.root)
+
         Log.d(TAG, "onCreate: ")
+
         if (savedInstanceState == null) {
             Log.d(TAG, "onCreate: Bundle is null")
         } else {
@@ -28,9 +31,20 @@ class LifeCycleActivity : AppCompatActivity() {
             bnLifeCycle.edtEmail.setText(savedInstanceState.getString(EMAIL))
             bnLifeCycle.edtPass.setText(savedInstanceState.getString(PASS))
         }
+
         bnLifeCycle.btnSave.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
+
+            Log.i(TAG, "setOnClickListener: ${Thread.currentThread().id}")
+            Log.i(TAG, "setOnClickListener: ${Thread.currentThread().name}")
+
+           val num =  bnLifeCycle.edtEmail.text.toString().toInt()
+            val intent = Intent(this, DemoService::class.java)
+            intent.putExtra("Number",num)//sending number to service
+            startService(intent)
+
+           // startActivity(Intent(this, SecondActivity::class.java))
         }
+
     }
 
     override fun onStart() {
@@ -41,17 +55,19 @@ class LifeCycleActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAG, "onRestart: ")
+        Log.d(TAG, "onRestart:")
     }
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: ")
+        Log.d(TAG, "--------------(Activity running) ")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause: ")
+
+        Log.d(TAG, "onPause:")
     }
 
     override fun onStop() {
@@ -62,6 +78,7 @@ class LifeCycleActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: ")
+        Log.d(TAG, "-----------------------Instance Destroyed: ")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -75,4 +92,7 @@ class LifeCycleActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         Log.d(TAG, "onRestoreInstanceState: ")
     }
+
+
+
 }

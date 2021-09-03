@@ -11,6 +11,7 @@ import com.appwork.ada.R
 
 
 class FirstFragment : Fragment() {
+
     companion object {
         const val TAG = "First Fragment"
     }
@@ -84,4 +85,5 @@ class FirstFragment : Fragment() {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState: ")
     }
+
 }
