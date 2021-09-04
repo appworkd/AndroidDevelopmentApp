@@ -34,15 +34,15 @@ class LifeCycleActivity : AppCompatActivity() {
 
         bnLifeCycle.btnSave.setOnClickListener {
 
-            Log.i(TAG, "setOnClickListener: ${Thread.currentThread().id}")
-            Log.i(TAG, "setOnClickListener: ${Thread.currentThread().name}")
+            Log.i(TAG, "Thread id: ${Thread.currentThread().id}")
+            Log.i(TAG, "Thread name: ${Thread.currentThread().name}")
 
-           val num =  bnLifeCycle.edtEmail.text.toString().toInt()
+            val num =  bnLifeCycle.edtEmail.text.toString().toInt()
             val intent = Intent(this, DemoService::class.java)
             intent.putExtra("Number",num)//sending number to service
             startService(intent)
 
-           // startActivity(Intent(this, SecondActivity::class.java))
+
         }
 
     }
