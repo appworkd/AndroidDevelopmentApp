@@ -21,14 +21,13 @@
             android:launchMode="singleInstance" />
         <activity
             android:name=".launchmodes.LMActivity3"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".launchmodes.LMActivity4"
             android:exported="true" />
         <activity
             android:name=".lifecycle.activities.SecondActivity"
-            android:exported="true" >
+            android:exported="true">
 
 
         </activity>
@@ -43,8 +42,26 @@
         </activity>
 
 
-    <service android:name=".backgroundprocess.services.DemoService"/>
-
+        <service android:name=".backgroundprocess.services.DemoService" />
+        <service
+            android:name=".backgroundprocess.services.MyIntentService"
+            android:exported="false" />
+        <service
+            android:name=".backgroundprocess.services.MyNormalService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".backgroundprocess.services.MyBindingService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".backgroundprocess.services.MyJobIntentService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".backgroundprocess.services.MyJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

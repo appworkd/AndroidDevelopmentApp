@@ -4,7 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.appwork.ada.backgroundprocess.services.DemoService
+import com.appwork.ada.backgroundprocess.services.MyJobIntentService
+import com.appwork.ada.backgroundprocess.services.MyNormalService
 import com.appwork.ada.databinding.ActivityLifeCycleBinding
 
 class LifeCycleActivity : AppCompatActivity() {
@@ -14,6 +15,9 @@ class LifeCycleActivity : AppCompatActivity() {
         const val PASS = "pass"
     }
 
+    private val serviceIntent by lazy {
+        Intent(this, MyJobIntentService::class.java)
+    }
     private val bnLifeCycle by lazy {
         ActivityLifeCycleBinding.inflate(layoutInflater)
     }
@@ -37,12 +41,18 @@ class LifeCycleActivity : AppCompatActivity() {
             Log.i(TAG, "setOnClickListener: ${Thread.currentThread().id}")
             Log.i(TAG, "setOnClickListener: ${Thread.currentThread().name}")
 
-            val num =  bnLifeCycle.edtEmail.text.toString().toInt()
+            /*val num = bnLifeCycle.edtEmail.text.toString().toInt()
             val intent = Intent(this, DemoService::class.java)
-            intent.putExtra("Number",num)//sending number to service
-            startService(intent)
+            intent.putExtra("Number", num)//sending number to service*/
 
-           // startActivity(Intent(this, SecondActivity::class.java))
+//            startService(serviceIntent)
+
+            MyJobIntentService.enqueueWork(this,
+            intent)
+            // startActivity(Intent(this, SecondActivity::class.java))
+        }
+        bnLifeCycle.btnStop.setOnClickListener {
+            stopService(serviceIntent)
         }
 
     }
@@ -92,7 +102,6 @@ class LifeCycleActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         Log.d(TAG, "onRestoreInstanceState: ")
     }
-
 
 
 }

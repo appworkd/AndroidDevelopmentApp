@@ -9,4 +9,6 @@
     <string name="add_first">First</string>
     <string name="add_second">Second</string>
     <string name="add_third">Third</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
