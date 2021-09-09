@@ -4,15 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.*
 import com.appwork.ada.backgroundprocess.services.MyJobIntentService
-import com.appwork.ada.backgroundprocess.services.MyNormalService
+import com.appwork.ada.backgroundprocess.services.work.MyWorker
+import com.appwork.ada.backgroundprocess.services.work.MyWorker1
+import com.appwork.ada.backgroundprocess.services.work.MyWorker2
 import com.appwork.ada.databinding.ActivityLifeCycleBinding
+import java.util.concurrent.TimeUnit
 
 class LifeCycleActivity : AppCompatActivity() {
     companion object {
         const val TAG = "FirstActivity Thread"
         const val EMAIL = "email"
         const val PASS = "pass"
+        const val INTERVAL = 15
     }
 
     private val serviceIntent by lazy {
@@ -21,6 +26,15 @@ class LifeCycleActivity : AppCompatActivity() {
     private val bnLifeCycle by lazy {
         ActivityLifeCycleBinding.inflate(layoutInflater)
     }
+    private val workManager by lazy {
+        WorkManager.getInstance(applicationContext)
+    }
+
+    private lateinit var workReq: OneTimeWorkRequest
+    private lateinit var workReq1: OneTimeWorkRequest
+    private lateinit var workReq2: OneTimeWorkRequest
+    private lateinit var periodicWork: PeriodicWorkRequest
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,23 +50,53 @@ class LifeCycleActivity : AppCompatActivity() {
             bnLifeCycle.edtPass.setText(savedInstanceState.getString(PASS))
         }
 
+        /**
+        Data we are passing to Worker
+         */
+        val data = Data.Builder().apply {
+            putInt("REPEAT", 50)
+        }.build()
+
+        /**
+         * Constraints we are passing to Worker
+         */
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresCharging(true)
+            .build()
+
+        periodicWork = PeriodicWorkRequestBuilder<MyWorker>(
+            5,
+            TimeUnit.MINUTES
+        ).build()
+        workReq = OneTimeWorkRequestBuilder<MyWorker>()
+            .setConstraints(constraints)
+            .setInputData(data)
+            .addTag("Worker")
+            .build()
+
+        workReq1 = OneTimeWorkRequestBuilder<MyWorker1>()
+            .setConstraints(constraints)
+            .addTag("Worker1")
+            .build()
+
+        workReq2 = OneTimeWorkRequestBuilder<MyWorker2>()
+            .setConstraints(constraints)
+            .addTag("Worker2")
+            .build()
+
         bnLifeCycle.btnSave.setOnClickListener {
-
-            Log.i(TAG, "setOnClickListener: ${Thread.currentThread().id}")
-            Log.i(TAG, "setOnClickListener: ${Thread.currentThread().name}")
-
-            /*val num = bnLifeCycle.edtEmail.text.toString().toInt()
-            val intent = Intent(this, DemoService::class.java)
-            intent.putExtra("Number", num)//sending number to service*/
-
-//            startService(serviceIntent)
-
-            MyJobIntentService.enqueueWork(this,
-            intent)
-            // startActivity(Intent(this, SecondActivity::class.java))
+            workManager.enqueue(periodicWork)
+            /*workManager.beginWith(workReq)
+                .then(workReq1)
+                .then(workReq2)
+                .enqueue()*/
         }
+
+
         bnLifeCycle.btnStop.setOnClickListener {
-            stopService(serviceIntent)
+            workManager.cancelWorkById(periodicWork.id)
+//            workManager.cancelAllWorkByTag("Worker2")
         }
 
     }
@@ -60,7 +104,6 @@ class LifeCycleActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart: ")
-        //Contact List
     }
 
     override fun onRestart() {
@@ -71,7 +114,6 @@ class LifeCycleActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: ")
-        Log.d(TAG, "--------------(Activity running) ")
     }
 
     override fun onPause() {
@@ -88,7 +130,6 @@ class LifeCycleActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: ")
-        Log.d(TAG, "-----------------------Instance Destroyed: ")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
