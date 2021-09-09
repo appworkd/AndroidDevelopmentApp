@@ -30,7 +30,7 @@ class MyWorker1(
 
     private fun startGenerating() {
         var i = 0
-        while (i < 10 && !isStopped) {
+        while (i < 5 && !isStopped) {
             try {
                 Thread.sleep(1000L)
                 randomNumber = Random().nextInt(MAX) + MIN

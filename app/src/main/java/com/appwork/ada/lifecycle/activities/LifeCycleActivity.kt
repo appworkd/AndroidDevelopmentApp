@@ -30,9 +30,9 @@ class LifeCycleActivity : AppCompatActivity() {
         WorkManager.getInstance(applicationContext)
     }
 
-    private lateinit var workReq: OneTimeWorkRequest
+  /*  private lateinit var workReq: OneTimeWorkRequest
     private lateinit var workReq1: OneTimeWorkRequest
-    private lateinit var workReq2: OneTimeWorkRequest
+    private lateinit var workReq2: OneTimeWorkRequest*/
     private lateinit var periodicWork: PeriodicWorkRequest
 
 
@@ -69,7 +69,7 @@ class LifeCycleActivity : AppCompatActivity() {
             5,
             TimeUnit.MINUTES
         ).build()
-        workReq = OneTimeWorkRequestBuilder<MyWorker>()
+     /*   workReq = OneTimeWorkRequestBuilder<MyWorker>()
             .setConstraints(constraints)
             .setInputData(data)
             .addTag("Worker")
@@ -83,11 +83,11 @@ class LifeCycleActivity : AppCompatActivity() {
         workReq2 = OneTimeWorkRequestBuilder<MyWorker2>()
             .setConstraints(constraints)
             .addTag("Worker2")
-            .build()
+            .build()*/
 
         bnLifeCycle.btnSave.setOnClickListener {
             workManager.enqueue(periodicWork)
-            /*workManager.beginWith(workReq)
+           /* workManager.beginWith(workReq)
                 .then(workReq1)
                 .then(workReq2)
                 .enqueue()*/

@@ -37,6 +37,7 @@ class MyWorker(
             re = extraData.getInt("REPEAT", 5)
         }
         while (i < 5 && !isStopped) {
+//        while (i < 20) {
             try {
                 Thread.sleep(1000L)
                 randomNumber = Random().nextInt(MAX) + MIN
