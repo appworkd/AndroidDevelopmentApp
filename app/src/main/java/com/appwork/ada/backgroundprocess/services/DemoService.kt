@@ -17,9 +17,9 @@ class DemoService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 
-//        Thread{
-            Log.i(TAG, "Thread id: ${Thread.currentThread().id}")
-            Log.i(TAG, "Thread name: ${Thread.currentThread().name}")
+        Thread{
+            Log.i(TAG, "onStartCommand: ${Thread.currentThread().id}")
+            Log.i(TAG, "onStartCommand: ${Thread.currentThread().name}")
 
             intent?.let{
                 val num =  it.getIntExtra("Number",0)
@@ -29,7 +29,7 @@ class DemoService : Service() {
                 }
                 stopSelf()
             }
-//        }.start()
+        }.start()
 
 
         return super.onStartCommand(intent, flags, startId)
