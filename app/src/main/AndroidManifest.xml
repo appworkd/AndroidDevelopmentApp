@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidDevelopmentApp">
         <activity
+            android:name=".solid.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".launchmodes.LMActivity1"
             android:exported="true">
 
