@@ -12,6 +12,10 @@
         <activity
             android:name=".solid.MainActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".backgroundprocess.async.MainBackgroundActivity"
+            android:exported="false" />
         <activity
             android:name=".launchmodes.LMActivity1"
             android:exported="true">
@@ -42,6 +46,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".collections.CollectionArrayList"
+            android:exported="true">
+
         </activity>
 
 

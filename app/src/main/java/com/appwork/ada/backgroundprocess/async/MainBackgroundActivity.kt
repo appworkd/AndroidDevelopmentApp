@@ -23,9 +23,11 @@ class MainBackgroundActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mainBinding.root)
+
         mainBinding.btnStart.setOnClickListener {
             MyAsyncTask().execute(10)
         }
+
         mainBinding.btnMove.setOnClickListener {
             startActivity(Intent(this, SecondActivity::class.java))
             finish()
@@ -34,7 +36,7 @@ class MainBackgroundActivity : AppCompatActivity() {
     }
 
     //    class MyAsyncTask(private val mainBackgroundActivity: MainBackgroundActivity) :
-    inner class MyAsyncTask :   //Input, Progress, Output
+    inner class MyAsyncTask :   //Input, Progress, Output/Result
         AsyncTask<Int, Int, String>() {
 //        var weakReference: WeakReference<MainBackgroundActivity> =
 //            WeakReference(mainBackgroundActivity)
@@ -44,7 +46,8 @@ class MainBackgroundActivity : AppCompatActivity() {
             super.onPreExecute()
             Log.e(TAG, "onPreExecute: Thread Name ${Thread.currentThread().name}")
             mainBinding.progressBar.visibility = View.VISIBLE
-            /*val activity = weakReference.get()
+            /*  onPreExecute ************
+            val activity = weakReference.get()
             activity?.let {
                 if (it.isFinishing) {
                     return
@@ -67,12 +70,14 @@ class MainBackgroundActivity : AppCompatActivity() {
             return "RESULT"
         }
 
+
         //#3
         override fun onProgressUpdate(vararg values: Int?) {
             super.onProgressUpdate(*values)
             //Log.e(TAG, "onProgressUpdate: Thread Name ${Thread.currentThread().name}")
             mainBinding.progressBar.progress = values[0]!!
-            /* val activity = weakReference.get()
+            /* onProgressUpdate ************
+             val activity = weakReference.get()
              activity?.let {
                  if (it.isFinishing) {
                      return
@@ -88,7 +93,8 @@ class MainBackgroundActivity : AppCompatActivity() {
             Log.e(TAG, "onPostExecute: Thread Name ${Thread.currentThread().name}")
             mainBinding.progressBar.visibility = View.GONE
             Toast.makeText(this@MainBackgroundActivity, result, Toast.LENGTH_LONG).show()
-            /*val activity = weakReference.get()
+            /*  onPostExecute ************
+            val activity = weakReference.get()
             activity?.let {
                 if (it.isFinishing) {
                     return
@@ -97,5 +103,7 @@ class MainBackgroundActivity : AppCompatActivity() {
                 it.mainBinding.progressBar.visibility = View.GONE
             }*/
         }
+
+
     }
 }
