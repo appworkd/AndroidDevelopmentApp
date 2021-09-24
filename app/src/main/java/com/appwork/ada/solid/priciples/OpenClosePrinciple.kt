@@ -9,8 +9,8 @@ package com.appwork.ada.solid.priciples
  * Never break the core of your System.
  */
 
-//Basic implementation
-/*class FieldType(
+/*//Basic implementation
+class FieldType(
     private val input: String = "TextBox"
 ) {
     fun getInput(): String {
@@ -23,6 +23,9 @@ package com.appwork.ada.solid.priciples
             }
             "Radio" -> {
                 return "This field used for choosing one option"
+            }
+            "Checkbox"->{
+                return "This field used for choosing multiple options"
             }
             else -> "Nothing"
         }
@@ -56,4 +59,11 @@ class MyRadioBox : FieldType {
     }
 }
 
+//type 4
+class MyCheckbox :FieldType{
+    override fun getInput(): String {
+      return  "This Field used for choosing  multiple options"
+    }
+
+}
 

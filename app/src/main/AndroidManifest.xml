@@ -10,14 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidDevelopmentApp">
         <activity
+            android:name=".backgroundprocess.thread.MainThreadActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".solid.MainActivity"
             android:exported="false" />
         <activity
             android:name=".launchmodes.LMActivity1"
-            android:exported="true">
-
-        </activity>
-
+            android:exported="true" />
         <activity
             android:name=".launchmodes.LMActivity2"
             android:exported="true"
@@ -30,19 +36,10 @@
             android:exported="true" />
         <activity
             android:name=".lifecycle.activities.SecondActivity"
-            android:exported="true">
-
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".lifecycle.activities.LifeCycleActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
 
         <service android:name=".backgroundprocess.services.DemoService" />

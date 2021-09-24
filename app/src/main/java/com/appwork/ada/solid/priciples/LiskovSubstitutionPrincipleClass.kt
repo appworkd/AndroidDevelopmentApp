@@ -29,7 +29,7 @@ class LiskovSubstitutionPrincipleClass {
 
     }
 
-    interface Signal : Applications {
+    interface Signal : WhatsApp {
         override fun haveUi() {
             Log.i(TAG, "haveUi: true")
         }
@@ -43,6 +43,32 @@ class LiskovSubstitutionPrincipleClass {
         }
 
     }
+
+}
+
+/**
+ *
+ */
+interface Animal {
+    fun eat()
+    fun run()
+    fun breed()
+
+}
+
+class Dog : Animal {
+    override fun eat() {
+
+    }
+
+    override fun run() {
+
+    }
+
+    override fun breed() {
+
+    }
+
 
 }
 

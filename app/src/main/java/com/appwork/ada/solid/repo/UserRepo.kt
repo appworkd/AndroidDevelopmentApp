@@ -12,12 +12,11 @@ class UserRepo(
     private val api: ApiInterface
 ) : UserDataSource {
 
-    fun saveToLocal(user: UserEntity) = userDb.saveUserInDatabase(user)
+    /*fun saveToLocal(user: UserEntity) = userDb.saveUserInDatabase(user)
 
-    fun callApi(user: UserEntity) = api.saveDataToServer(user)
+    fun callApi(user: UserEntity) = api.saveDataToServer(user)*/
 
-    override fun saveUser(user: UserEntity) {
-        userDb.saveUserInDatabase(user)
-        api.saveDataToServer(user)
+    override fun saveUser(user: UserEntity) {//high level code
+
     }
 }
