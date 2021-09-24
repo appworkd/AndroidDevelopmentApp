@@ -10,9 +10,11 @@ import com.appwork.ada.backgroundprocess.services.work.MyWorker
 import com.appwork.ada.backgroundprocess.services.work.MyWorker1
 import com.appwork.ada.backgroundprocess.services.work.MyWorker2
 import com.appwork.ada.databinding.ActivityLifeCycleBinding
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class LifeCycleActivity : AppCompatActivity() {
+
     companion object {
         const val TAG = "FirstActivity Thread"
         const val EMAIL = "email"
@@ -30,9 +32,11 @@ class LifeCycleActivity : AppCompatActivity() {
         WorkManager.getInstance(applicationContext)
     }
 
-  /*  private lateinit var workReq: OneTimeWorkRequest
-    private lateinit var workReq1: OneTimeWorkRequest
-    private lateinit var workReq2: OneTimeWorkRequest*/
+    private lateinit var workReq: OneTimeWorkRequest
+   private lateinit var workReq1: OneTimeWorkRequest
+     private lateinit var workReq2: OneTimeWorkRequest
+     private lateinit var workReq3: OneTimeWorkRequest
+     private lateinit var workReq4: OneTimeWorkRequest
     private lateinit var periodicWork: PeriodicWorkRequest
 
 
@@ -61,42 +65,56 @@ class LifeCycleActivity : AppCompatActivity() {
          * Constraints we are passing to Worker
          */
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresCharging(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED) // network type required for your work to run
+            .setRequiresBatteryNotLow(true) //true = work will not run when device battery is low
+            .setRequiresCharging(true) // true = work will only run when the device is charging
+            .setRequiresDeviceIdle(true) // true = requires the user’s device to be idle before the work will run
+            .setRequiresStorageNotLow(true) // true =  if the user’s storage space on the device is too low your work will not run
             .build()
 
         periodicWork = PeriodicWorkRequestBuilder<MyWorker>(
             5,
             TimeUnit.MINUTES
         ).build()
-     /*   workReq = OneTimeWorkRequestBuilder<MyWorker>()
-            .setConstraints(constraints)
-            .setInputData(data)
-            .addTag("Worker")
+
+      workReq = OneTimeWorkRequestBuilder<MyWorker>()
+            .setInputData(data) // assigning data to work request
+            .addTag("Worker") // setting tag
             .build()
 
-        workReq1 = OneTimeWorkRequestBuilder<MyWorker1>()
-            .setConstraints(constraints)
-            .addTag("Worker1")
-            .build()
+         workReq1 = OneTimeWorkRequestBuilder<MyWorker1>()
+             .setConstraints(constraints)
+             .addTag("Worker1")
+             .build()
 
-        workReq2 = OneTimeWorkRequestBuilder<MyWorker2>()
-            .setConstraints(constraints)
-            .addTag("Worker2")
-            .build()*/
+         workReq2 = OneTimeWorkRequestBuilder<MyWorker2>()
+             .setConstraints(constraints)
+             .addTag("Worker2")
+             .build()
+
+        workReq3 = OneTimeWorkRequestBuilder<MyWorker2>()
+             .setConstraints(constraints)
+             .addTag("Worker3")
+             .build()
+
+        workReq4 = OneTimeWorkRequestBuilder<MyWorker2>()
+             .setConstraints(constraints)
+             .addTag("Worker4")
+             .build()
 
         bnLifeCycle.btnSave.setOnClickListener {
-            workManager.enqueue(periodicWork)
-           /* workManager.beginWith(workReq)
+           // workManager.enqueue(workReq)
+
+            workManager.beginWith(workReq)
                 .then(workReq1)
                 .then(workReq2)
-                .enqueue()*/
-        }
+                .enqueue()
 
+        }
 
         bnLifeCycle.btnStop.setOnClickListener {
             workManager.cancelWorkById(periodicWork.id)
-//            workManager.cancelAllWorkByTag("Worker2")
+            workManager.cancelAllWorkByTag("Worker2")
         }
 
     }
