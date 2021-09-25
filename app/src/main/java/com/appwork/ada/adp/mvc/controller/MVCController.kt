@@ -20,11 +20,7 @@ class MVCController(
     }
 
     fun addNewUser(user: UserModel) {
-        if (mvcModelImpl.insertUser(user)) {
-            mvcView.updateOnAddUser(mvcModelImpl.getAllUsers())
-        } else {
-            mvcView.showError("Something went wrong")
-        }
+        mvcView.showAllUsers(mvcModelImpl.insertUser(user))
     }
 
     fun getUser(id: String) {

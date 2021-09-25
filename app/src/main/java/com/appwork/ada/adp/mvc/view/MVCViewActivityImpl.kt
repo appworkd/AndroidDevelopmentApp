@@ -3,10 +3,13 @@ package com.appwork.ada.adp.mvc.view
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.appwork.ada.adp.mvc.controller.MVCController
 import com.appwork.ada.adp.mvc.model.MVCModelImpl
 import com.appwork.ada.adp.mvc.model.UserModel
 import com.appwork.ada.adp.mvc.model.db.UserDb
+import com.appwork.ada.adp.mvc.view.adapter.UserAdapter
+import com.appwork.ada.adp.mvc.view.adapter.UserAdapter.Interaction
 import com.appwork.ada.databinding.ActivityMainMvcactivityBinding
 
 /**
@@ -14,9 +17,12 @@ import com.appwork.ada.databinding.ActivityMainMvcactivityBinding
  */
 class MVCViewActivityImpl(
     private val context: Context
-) : MVCMainActivityView {
+) : MVCMainActivityView, Interaction {
     private val vbBind: ActivityMainMvcactivityBinding by lazy {
         ActivityMainMvcactivityBinding.inflate(LayoutInflater.from(context))
+    }
+    private val userAda by lazy {
+        UserAdapter(this)
     }
     private val mvcModel = MVCModelImpl(UserDb())
     private val mvcController = MVCController(mvcModel, this)
@@ -27,12 +33,13 @@ class MVCViewActivityImpl(
 
     override fun showAllUsers(usersList: List<UserModel>) {
         vbBind.tvInfo.text = ""
-        vbBind.tvInfo.text = usersList.toString()
+        userAda.submitList(usersList)
     }
 
     override fun updateOnAddUser(usersList: List<UserModel>) {
         vbBind.tvInfo.text = ""
-        vbBind.tvInfo.text = usersList.toString()
+        userAda.submitList(usersList)
+        userAda.notifyAdapter()
     }
 
     override fun updateOnSingleUserSelection(user: UserModel) {
@@ -49,6 +56,13 @@ class MVCViewActivityImpl(
         return vbBind.root
     }
 
+    private fun setUpRecyclerView() {
+        vbBind.rvUser.apply {
+            adapter = userAda
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+    }
+
     override fun initView() {
         vbBind.btnAddUser.setOnClickListener {
             mvcController.addNewUser(UserModel("Vivek", "123"))
@@ -59,5 +73,10 @@ class MVCViewActivityImpl(
         vbBind.btnGetUser.setOnClickListener {
             mvcController.getUser("0")
         }
+        setUpRecyclerView()
+    }
+
+    override fun onItemSelected(position: Int, item: UserModel) {
+
     }
 }

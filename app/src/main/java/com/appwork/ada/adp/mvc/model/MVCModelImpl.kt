@@ -8,7 +8,7 @@ import com.appwork.ada.adp.mvc.model.db.UserDb
 class MVCModelImpl(
     private val userDb: UserDb
 ) : MVCModel {
-    override fun insertUser(user: UserModel): Boolean {
+    override fun insertUser(user: UserModel): List<UserModel> {
         return userDb.insertUser(user)
     }
 

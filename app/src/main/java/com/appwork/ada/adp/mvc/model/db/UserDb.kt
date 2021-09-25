@@ -6,13 +6,16 @@ import com.appwork.ada.adp.mvc.model.UserModel
  * Created by Vivek Kumar belongs to APP WORK  on 24-09-2021.
  */
 class UserDb {
-
-    fun insertUser(user: UserModel) :Boolean{
-       return true
+    private val list = mutableListOf<UserModel>()
+    fun insertUser(user: UserModel): List<UserModel> {
+        list.add(user)
+        return list
     }
 
     fun getAllUsers(): List<UserModel> {
-        val list = mutableListOf<UserModel>()
+        if (list.isNotEmpty()) {
+            list.clear()
+        }
         for (i in 0 until 5) {
             list.add(UserModel("Name $i", "Num $i"))
         }
